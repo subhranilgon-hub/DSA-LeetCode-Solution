@@ -6,20 +6,19 @@
 #         self.right = right
 class Solution:
     def binaryTreePaths(self, root: TreeNode | None) -> list[str]:
+        if not root:
+            return []
+        #Base Case
+        if not root.left and not root.right:
+            return [str(root.val)]
+
         ans=[]
-        def dfs(root:TreeNode|None,path:list[str]):
-            if not root:
-                return
+        for left_path in self.binaryTreePaths(root.left):
+            ans.append(f"{root.val}->{left_path}")
 
-            path.append(str(root.val))
+        for right_path in self.binaryTreePaths(root.right):
+            ans.append(f"{root.val}->{right_path}")
 
-            if not root.left and not root.right:
-                ans.append("->".join(path))
-            else:
-                dfs(root.left,path)
-                dfs(root.right,path)
-            
-            path.pop()
-        dfs(root,[])
         return ans
+
         
